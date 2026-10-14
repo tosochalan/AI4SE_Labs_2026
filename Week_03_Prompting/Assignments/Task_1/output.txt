@@ -1,0 +1,59 @@
+My 3 chosen frameworks:
+ICIO - because i can clearly state the input files and their format and output: csv with sql queries. I expect it will create the csv files in my wanted format. Prompt:
+Instruction: Generate an SQL query for given natural language question and expected result.
+Context: The generrated SQL query is meant to be used on the database in order to answer the given question in natural language.
+Input: file restaurants_dataset.csv contains questions in natural language and the expected result from db. restaurants-schema.csv describe the db structure. DO NOT READ THE DATABASE.
+Output: CSV with headers: question, predicted_sql. For each natural language question from input, predicted_sql is your generated SQL query.
+
+-----------------------------------
+
+PACT - similar, because i can state the constraints (format), what the agent should do, why and how. I expect generated CSV as in previous framework. Prompt:
+Purpose: Generate SQL queries that answer natural-language questions using the provided database schema.
+
+Action: For each natural-language question in restaurants_dataset.csv, generate an SQL query and save the results in a CSV file.
+
+Constraints:
+
+Use restaurants_dataset.csv as the source of questions and expected results.
+
+Use restaurants-schema.csv to understand the database structure.
+
+DO NOT READ OR QUERY THE DATABASE.
+
+BE FAST. I DONT WANT TO WAIT FOR 13 MINUTES!
+
+Generate one SQL query for each input question.
+
+The output CSV must contain exactly two headers: question and predicted_sql.
+
+Preserve each original question in the question column and put the corresponding generated SQL query in predicted_sql.
+
+Tone: Be precise and consistent. Output only the requested CSV file, without additional explanations.
+
+-------------------------------------
+
+GKP - because i give it knowledge that i want it to have (the db scehma, how the input looks and what has the agent have to do) and based on it, it generates my wanted output. I expect the result to be similar to the other two, since its the same thing but in different wording.
+
+Phase 1 — Generate Knowledge:
+
+Analyze restaurants-schema.csv to identify the available tables, columns, data types, and relationships. Then analyze restaurants_dataset.csv to identify patterns in the natural-language questions, their expected results, and the SQL queries that would likely produce those results. Summarize the relevant schema information, SQL patterns, and assumptions that will help generate accurate queries.
+
+Phase 2 — Generate SQL:
+
+Using the knowledge gathered in Phase 1, generate an SQL query for each natural-language question in restaurants_dataset.csv. Use the schema and examples to guide query construction and ensure that each query is consistent with the available database structure.
+
+Constraints:
+
+DO NOT READ OR QUERY THE DATABASE. Use only the two provided CSV files.
+
+BE FAST. I DONT WANT TO WAIT FOR 13 MINUTES!
+
+Do not execute the generated SQL queries.
+
+Do not invent tables or columns that are not present in the schema.
+
+Generate exactly one SQL query for each input question.
+
+Output:
+
+Produce a CSV file with the headers question,predicted_sql. Include the original natural-language question and its generated SQL query in each row. Properly escape CSV-special characters where necessary. Do not include the intermediate knowledge analysis in the output CSV.

@@ -1,0 +1,22 @@
+icio:
+Completed 20 steps in 13m31s
+Accuracy: 0.2774 (27.74%)
+Correct: 43/155
+
+pact:
+Completed 33 steps in 6m13s
+Accuracy: 0.2774 (27.74%)
+Correct: 43/155
+
+gkp:
+Compleyed 42 steps in 7m30s
+Accuracy: 0.1613 (16.13%)
+Correct: 25/155
+
+we can see that pact performed the vest, although 27% isnt a lot, it completed in 6 minutes, which too isnt little, but it is the least from all three. from this i created this visualisation showing the winners:
+
+1. 🥇 pact
+2. 🥈 gkp
+3. 🥉 icio
+
+- although icio had better accuracy, waiting for 13 minutes for prompt to be completed rellay isnt ideal. I would rather do it myself manually.

@@ -1,0 +1,16 @@
+i rank each prompt with: the accuracy (original), how long it took to generate, the length of generated queries (number of characters - the shorter the query, the better, because we dont want too long queries for trivial tasks). I would also maybe check the syntax of sql quieries, but it seems like that they are all valid. The proposed metrics will be computed to one ranking: 1000000*accuracy/(time*total_length). It is multiplied by 1 million, so the number isnt so small.
+
+output of the script:
+Total generated SQL length: 25721
+total rank: accuracy/(time*length) = 0.7988860521810252
+Framework: pact
+Total generated SQL length: 25567
+total rank: accuracy/(time*length) = 1.749987698356122
+Framework: gkp
+Total generated SQL length: 20487
+total rank: accuracy/(time*length) = 1.0497713997494347
+
+Here, we can see that icio and pact had similar total length of queries close to 25000, while the third prompt generated only 20000 characters (5 000 less). Combining all metrics yields us the same ranking though:
+1. 🥇 pact: rank=1.74
+2. 🥈 gkp: rank=1.04
+3. 🥉 icio: rank=0.79
