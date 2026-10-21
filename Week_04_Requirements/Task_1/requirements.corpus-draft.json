@@ -1,0 +1,349 @@
+{
+  "title": "PINES Management and Reporting Processes — Requirements Draft",
+  "prepared_by": "Coding-agent corpus review",
+  "run_status": "Curated corpus draft; the LangGraph/OpenAI network has not been run because OPENAI_API_KEY was unavailable in the execution environment.",
+  "source_documents": [
+    "conversations/conv_pines014_material_volume.eml",
+    "conversations/conv_pines015_capacity_interface.eml",
+    "conversations/conv_pines016_shelf_space.eml",
+    "conversations/conv_pines018_item_transfer.eml",
+    "conversations/conv_pines019_020_missing_intransit.eml",
+    "conversations/conv_pines021_item_purging.eml",
+    "conversations/conv_pines022_deletions.eml",
+    "conversations/conv_pines023_patron_characteristics.eml",
+    "conversations/conv_pines024_inactive_patrons.eml",
+    "early_draft_srs_galecia.txt",
+    "email_financial_reports.eml",
+    "email_report_features.eml",
+    "email_staff_login.eml",
+    "evergreen_reference_2009.txt",
+    "interview_cataloging_2009-05-08.txt",
+    "interview_sysadmin_2009-05-10.txt",
+    "meeting_minutes/meeting_2009-03-15_minutes.txt",
+    "meeting_minutes/meeting_2009-07-20_minutes.txt",
+    "meeting_tech_subcommittee_2009-06-30.txt",
+    "survey_results_2009.txt"
+  ],
+  "priority_scale": {
+    "Critical": "Explicitly identified as critical/non-negotiable in source evidence; blocking if absent.",
+    "High": "Explicitly marked high priority or needed for a core, regulatory, security, or essential operational purpose.",
+    "Medium": "Explicitly marked medium priority or valuable but not identified as blocking.",
+    "Low": "Explicitly identified as optional or lower impact.",
+    "Unspecified": "The corpus does not establish a reliable priority; one has not been invented."
+  },
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "name": "Consortium Scale and Workload",
+      "description": "The system shall support the consortium-scale workload described in the draft specification: 286 locations, approximately 17 million annual circulations, and purchasing or processing more than 900,000 items per year. Searches and reports should be usable during opening hours without disrupting other system functions.",
+      "priority": "High",
+      "priority_rationale": "The draft specification marks the scale and operational availability requirement high priority.",
+      "sources": ["early_draft_srs_galecia.txt"]
+    },
+    {
+      "id": "REQ-002",
+      "name": "Supported Operating Environments",
+      "description": "The system shall operate on Linux or Solaris servers and shall be accessible through a web browser or a Windows-compatible client. If browser-based, the draft specifies Internet Explorer 6 and later and Firefox 2 and later; these legacy versions require stakeholder confirmation before implementation.",
+      "priority": "High",
+      "priority_rationale": "Server and client environment requirements are marked high priority; the stated browser versions are legacy and flagged for confirmation.",
+      "sources": ["early_draft_srs_galecia.txt"]
+    },
+    {
+      "id": "REQ-003",
+      "name": "Assistive Technology Accessibility",
+      "description": "The system shall be accessible to users of screen readers, screen magnifiers, and other assistive technologies. Web interfaces shall use standards-compliant semantic markup and appropriate accessible labels so staff who rely on assistive technology can use reporting functions.",
+      "priority": "High",
+      "priority_rationale": "The draft and sysadmin interview identify accessibility as high priority and a non-negotiable public-service need.",
+      "sources": ["early_draft_srs_galecia.txt", "interview_sysadmin_2009-05-10.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-004",
+      "name": "Relational Data and HTML Standards",
+      "description": "The system shall use a fully relational database backend and produce standards-compliant HTML for web components. Reporting must query the system's related records, including bibliographic, item, patron, transaction, and financial data, without creating inconsistent copies of source data.",
+      "priority": "High",
+      "priority_rationale": "The draft marks the relational database and compliant HTML constraints high priority.",
+      "sources": ["early_draft_srs_galecia.txt", "meeting_tech_subcommittee_2009-06-30.txt", "interview_sysadmin_2009-05-10.txt"]
+    },
+    {
+      "id": "REQ-005",
+      "name": "Development and Training Environments",
+      "description": "The system shall provide separate development and training environments so staff can test reports without changing production data. Administrators shall be able to migrate or export/import report templates, permission settings, and other configuration into production.",
+      "priority": "Medium",
+      "priority_rationale": "The draft marks environment separation and configuration migration medium priority.",
+      "sources": ["early_draft_srs_galecia.txt", "interview_sysadmin_2009-05-10.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-006",
+      "name": "Role-Based Permissions",
+      "description": "The system shall control user rights through security groups and roles assigned to individuals, workgroups, and arbitrary staff groups. Administrators shall be able to define role-specific access to data, reports, query fields, templates, and management actions; changing a user's role shall update the user's permissions.",
+      "priority": "High",
+      "priority_rationale": "Role and access-control requirements are explicitly marked high priority.",
+      "sources": ["early_draft_srs_galecia.txt", "email_staff_login.eml", "email_report_features.eml", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-007",
+      "name": "Optional Streamlined Staff Login",
+      "description": "The system should support optional streamlined staff login, such as an employee ID card swipe, as well as individual username-and-password login. Either method shall identify the individual staff member for auditing, and the streamlined method shall not be mandatory for branches without compatible hardware.",
+      "priority": "Unspecified",
+      "priority_rationale": "The source establishes the capability and fallback behavior but does not assign a priority.",
+      "sources": ["early_draft_srs_galecia.txt", "email_staff_login.eml"]
+    },
+    {
+      "id": "REQ-008",
+      "name": "Flexible Query Builder",
+      "description": "The system shall provide a user-friendly query interface for supported record types, including bibliographic, item, patron, transaction, and financial records. Authorized users shall be able to select fields and picklist values, use supported regular expressions and Boolean operators, combine filters, save queries, and inspect the selections used to produce results.",
+      "priority": "Unspecified",
+      "priority_rationale": "The feature is repeatedly requested, but the sources do not assign it a formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "email_report_features.eml", "survey_results_2009.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-009",
+      "name": "Governed Report Templates",
+      "description": "Administrators shall be able to create shared report templates that staff can run as-is or modify within administrator-defined limits on editable filters and display fields. Authorized users should be able to clone a template as a separate report variant without changing the original shared definition.",
+      "priority": "Unspecified",
+      "priority_rationale": "The requirement is explicit and strongly supported by survey results, but no normative priority level is assigned.",
+      "sources": ["early_draft_srs_galecia.txt", "email_report_features.eml", "survey_results_2009.txt"]
+    },
+    {
+      "id": "REQ-010",
+      "name": "Report Access and Shared Folders",
+      "description": "The system shall provide fine-grained permissions controlling who may create, clone, modify, and run reports, including ad hoc reports and reports over restricted data. Administrators shall be able to organize shared reports in folders, and report permissions shall follow the user's assigned role.",
+      "priority": "High",
+      "priority_rationale": "The draft marks report permissions high priority; survey respondents also rated fine-grained permissions highly.",
+      "sources": ["early_draft_srs_galecia.txt", "email_report_features.eml", "meeting_tech_subcommittee_2009-06-30.txt", "survey_results_2009.txt"]
+    },
+    {
+      "id": "REQ-011",
+      "name": "Executive and Board Reporting",
+      "description": "The system shall provide predefined board and executive reports with required annual statistics and activity measures, including check-ins, check-outs, holds placed, and holds filled. Reports shall support cross-tabulation by terminal, branch, system, hour, patron age range, patron type, and patron location.",
+      "priority": "Unspecified",
+      "priority_rationale": "The need is explicit, but the corpus does not assign a formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "email_report_features.eml"]
+    },
+    {
+      "id": "REQ-012",
+      "name": "Report Queue Visibility and Control",
+      "description": "Users shall be able to see whether a submitted report is waiting, running, completed, or failed, when it was submitted, and how many reports are ahead of it. Authorized users shall be able to prioritize appropriate reports, schedule recurring reports, receive reports by email where permitted, and cancel a scheduled or running report.",
+      "priority": "Unspecified",
+      "priority_rationale": "Queue visibility is supported by survey and stakeholder discussion; no formal priority is assigned.",
+      "sources": ["early_draft_srs_galecia.txt", "email_report_features.eml", "survey_results_2009.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-013",
+      "name": "Report Output and Result Semantics",
+      "description": "Reports shall support HTML, CSV, and Excel output. Results shall show the query selections used; include blank and null values unless a user explicitly filters them out; and distinguish real-time reports from historical reports when the requested data permits both interpretations.",
+      "priority": "Unspecified",
+      "priority_rationale": "Output formats and result behavior are explicitly requested, but no formal priority is assigned.",
+      "sources": ["email_report_features.eml", "survey_results_2009.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-014",
+      "name": "Privacy-Protecting Transaction Archive",
+      "description": "The system shall archive transaction information for statistical and audit purposes while protecting patron privacy and complying with applicable state law. Retention rules must be configurable to applicable legal schedules; the financial discussion identifies seven years for some audit data, while the general transaction retention period remains unspecified.",
+      "priority": "High",
+      "priority_rationale": "Archiving and privacy requirements are explicitly tied to state law and audit compliance.",
+      "sources": ["early_draft_srs_galecia.txt", "email_financial_reports.eml", "email_report_features.eml", "survey_results_2009.txt"]
+    },
+    {
+      "id": "REQ-015",
+      "name": "Material Volume Report",
+      "description": "The system shall report material volume for a library at a point in time, distinguishing new acquisitions, items on the shelf, and items in circulation. Users shall be able to group counts by total collection, holds, genre, format, and other configurable categories such as adult fiction and board books.",
+      "priority": "Unspecified",
+      "priority_rationale": "The function is repeatedly requested, but the sources do not provide a formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines014_material_volume.eml", "interview_cataloging_2009-05-08.txt"]
+    },
+    {
+      "id": "REQ-016",
+      "name": "Branch Capacity Overview",
+      "description": "The system should provide an overview of capacity across all branches, with the ability to drill down into an individual branch. Users should be able to sort and filter by region, library type, and load, review trends, and export the results to CSV; the exact capacity measures require stakeholder definition.",
+      "priority": "Unspecified",
+      "priority_rationale": "The capability is explicit, while the corpus leaves the underlying capacity measures open.",
+      "sources": ["conversations/conv_pines015_capacity_interface.eml"]
+    },
+    {
+      "id": "REQ-017",
+      "name": "Shelf Space and Collection Use Report",
+      "description": "For each genre and format, the system shall compare the percentage of total circulations, percentage of the collection, and percentage of shelf space occupied. The report shall be available at both library and system scope; where dimensions are unavailable, the method for estimating shelf space must be made explicit.",
+      "priority": "Unspecified",
+      "priority_rationale": "The report is explicit, but estimation details and priority are not finalized.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines016_shelf_space.eml", "interview_cataloging_2009-05-08.txt"]
+    },
+    {
+      "id": "REQ-018",
+      "name": "Uncataloged Material Tracking",
+      "description": "The system shall support inventory and usage reporting for uncataloged materials, including quick distribution with minimal branch effort. Transactions involving these materials shall be countable and included in circulation statistics and reports.",
+      "priority": "Unspecified",
+      "priority_rationale": "The draft states the need without assigning priority.",
+      "sources": ["early_draft_srs_galecia.txt"]
+    },
+    {
+      "id": "REQ-019",
+      "name": "Controlled Batch Item Transfers",
+      "description": "Authorized users shall be able to query for candidate items, save and reuse queries, select specific items, preview proposed changes, and create pull lists before transferring items between locations. The utility shall support time- or event-based return to the original location, transfer history, undo or alert handling where specified, and efficient batch processing.",
+      "priority": "Unspecified",
+      "priority_rationale": "The feature is supported by discussion and survey results, but no formal priority is assigned.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines018_item_transfer.eml", "survey_results_2009.txt"]
+    },
+    {
+      "id": "REQ-020",
+      "name": "Missing and Damaged Items Reporting",
+      "description": "The system shall report missing and damaged items by branch for inventory audits and collection management. Reports should include item condition notes where available and support grouping that helps identify branch-level patterns.",
+      "priority": "Unspecified",
+      "priority_rationale": "The stakeholders establish the need but do not assign a formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines019_020_missing_intransit.eml"]
+    },
+    {
+      "id": "REQ-021",
+      "name": "Combined In-Transit Exception Report",
+      "description": "The system shall provide one report combining transit-to and transit-from items, identifying items that have remained in transit beyond a configurable number of days. It shall support branch and system scopes; the discussion suggests seven days as a default, subject to configuration.",
+      "priority": "Unspecified",
+      "priority_rationale": "The report and configurable threshold are explicit; priority is not assigned.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines019_020_missing_intransit.eml"]
+    },
+    {
+      "id": "REQ-022",
+      "name": "Safe, Configurable Item Purging",
+      "description": "The system shall identify item records eligible for purging using configurable combinations of status, elapsed time, and circulation activity. Candidate reports shall be read-only, actual deletion shall require a separate confirmation step, scheduled purge execution shall require authorization, and completed purges shall be auditable.",
+      "priority": "High",
+      "priority_rationale": "Stakeholders explicitly identify the last-copy safeguard as critical and emphasize safety controls and auditability for deletion operations.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines021_item_purging.eml"]
+    },
+    {
+      "id": "REQ-023",
+      "name": "Last-Copy Protection and Record Cleanup",
+      "description": "The system shall identify last copies within a selected library and across the full system before catalogers delete records. Authorized cleanup functions shall also support appropriate removal of volume and copy entries and records with no attached items, without bypassing last-copy safeguards.",
+      "priority": "Critical",
+      "priority_rationale": "Stakeholders explicitly label the last-copy report critical to avoid deleting the consortium's only copy.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines021_item_purging.eml", "interview_cataloging_2009-05-08.txt"]
+    },
+    {
+      "id": "REQ-024",
+      "name": "Deletion Audit and Reporting",
+      "description": "The system shall record deleted record type, identifier, time, user, and location, and support reports by period, record type, user, location, and system. Denied deletion attempts should also be trackable for audit and troubleshooting, without retaining unnecessary personally identifiable data beyond policy.",
+      "priority": "Unspecified",
+      "priority_rationale": "Deletion tracking is explicitly requested, but no formal priority is stated.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines022_deletions.eml", "survey_results_2009.txt"]
+    },
+    {
+      "id": "REQ-025",
+      "name": "Patron Characteristic Filtering and Grouping",
+      "description": "Authorized reports shall filter and group patrons and patron transactions by age range, ZIP code, county, home branch, patron type, and preferred language. Age bands shall be configurable, multiple demographic filters shall be combinable, and reports shall define how missing values are represented.",
+      "priority": "Unspecified",
+      "priority_rationale": "The field and filtering needs are explicit; no formal priority is assigned.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines023_patron_characteristics.eml"]
+    },
+    {
+      "id": "REQ-026",
+      "name": "Inactive Patron Report",
+      "description": "The system shall identify patrons with no circulation or electronic activity during a configurable period. Users shall be able to scope the report to the system, home library, county, or another supported organizational grouping.",
+      "priority": "Unspecified",
+      "priority_rationale": "The requirement is explicit but has no assigned priority.",
+      "sources": ["early_draft_srs_galecia.txt", "conversations/conv_pines024_inactive_patrons.eml"]
+    },
+    {
+      "id": "REQ-027",
+      "name": "Transaction and Circulation Statistics",
+      "description": "The system shall report transactions by hour, terminal, branch, library group, county, and system, and distinguish transaction types and methods. Statistics shall separately count check-in methods, staff and self-service checkouts and renewals, hold placement channels, registrations, fines collected, holds placed or filled, and other supported activity.",
+      "priority": "Unspecified",
+      "priority_rationale": "The survey and draft establish detailed reporting needs but do not set a formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "survey_results_2009.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-028",
+      "name": "Historical Transaction Retention",
+      "description": "The system shall retain detailed transaction history for a configurable number of days and retain monthly and annual aggregate information indefinitely, subject to applicable privacy and legal retention policies. Users shall be able to distinguish current-state reports from historical snapshots.",
+      "priority": "Unspecified",
+      "priority_rationale": "The history and aggregation periods are configurable or described, but no formal priority is assigned.",
+      "sources": ["early_draft_srs_galecia.txt", "survey_results_2009.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-029",
+      "name": "Anonymized Patron Behavior Analysis",
+      "description": "The system shall support anonymized demographic and usage analysis for service planning, including return-time averages, renewal likelihood, and renewal percentages. Statistics may be grouped by geography and age range, but outputs shall not identify individual patrons.",
+      "priority": "Unspecified",
+      "priority_rationale": "The need and privacy constraint are explicit; no formal priority is stated.",
+      "sources": ["early_draft_srs_galecia.txt", "survey_results_2009.txt"]
+    },
+    {
+      "id": "REQ-030",
+      "name": "Item Valuation Report",
+      "description": "The system shall calculate the value of all or selected items using item-record value data. Users shall be able to filter and aggregate the result for scopes such as the entire collection, a status, a format, or a collection area.",
+      "priority": "Unspecified",
+      "priority_rationale": "The report is explicitly requested without a formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "email_financial_reports.eml"]
+    },
+    {
+      "id": "REQ-031",
+      "name": "Financial Reporting and Account Queries",
+      "description": "The system shall report patron balances by patron, home library, and system; fines and charges by period and type; waived fines by period and branch; and payments by period, method, and collecting library. Authorized users shall be able to query balances above a specified amount, and financial information shall reflect updates such as front-desk payments promptly.",
+      "priority": "Unspecified",
+      "priority_rationale": "The report and update needs are explicit but not assigned formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "email_financial_reports.eml"]
+    },
+    {
+      "id": "REQ-032",
+      "name": "Financial Payment Ledger and Compliance",
+      "description": "The system shall maintain an auditable ledger linking each patron payment to the charges it settles, supporting reconciliation by time period, payment method, and library. Financial reporting and data archiving shall comply with applicable accounting practice and state, county, and municipal audit requirements.",
+      "priority": "High",
+      "priority_rationale": "The financial audit trail is described as critical and compliance obligations are explicit.",
+      "sources": ["early_draft_srs_galecia.txt", "email_financial_reports.eml"]
+    },
+    {
+      "id": "REQ-033",
+      "name": "Cataloging and Data Quality Reports",
+      "description": "The system shall provide data-quality reports for records such as invalid item types, long call numbers, bibliographic records without items, and patrons with invalid home libraries. Cataloging reports should support last-copy review, relevant WorldCat workflows, and display the last edit date without treating circulation as an edit.",
+      "priority": "Unspecified",
+      "priority_rationale": "The interview identifies actionable reports and a critical last-copy workflow, but this combined data-quality capability has no single formal priority.",
+      "sources": ["early_draft_srs_galecia.txt", "interview_cataloging_2009-05-08.txt", "email_report_features.eml"]
+    },
+    {
+      "id": "REQ-034",
+      "name": "User and Data Documentation",
+      "description": "The developer shall provide data specifications for the record types maintained or accessed by Management Processes and high-level descriptions of major processes, including record import/export, validation, and standard reports. The system shall provide hierarchical online help and clear error reporting and feedback.",
+      "priority": "High",
+      "priority_rationale": "The draft marks core user documentation requirements high priority.",
+      "sources": ["early_draft_srs_galecia.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-035",
+      "name": "Management System Integration Boundaries",
+      "description": "Management reporting processes shall integrate with the central library automation system, supported vendor websites, and the OPAC while respecting their defined responsibilities. Reporting activity shall not constrain OPAC functionality or materially disrupt patron access.",
+      "priority": "High",
+      "priority_rationale": "The draft marks the OPAC constraint high priority and describes the other integrations as system assumptions or dependencies.",
+      "sources": ["early_draft_srs_galecia.txt", "evergreen_reference_2009.txt", "interview_sysadmin_2009-05-10.txt", "meeting_tech_subcommittee_2009-06-30.txt"]
+    },
+    {
+      "id": "REQ-036",
+      "name": "Survey Filtering by Name",
+      "description": "When a report filters survey responses, users shall be able to select a survey by its name rather than needing to know an internal survey identifier. The system shall resolve the selected name to the corresponding identifier when executing the query.",
+      "priority": "Unspecified",
+      "priority_rationale": "The technical meeting records this behavior as a feasible requirement but assigns no priority.",
+      "sources": ["meeting_tech_subcommittee_2009-06-30.txt"]
+    }
+  ],
+  "blacklist": [
+    {
+      "description": "Personal conversation about binge-watching a television series.",
+      "sources": ["conversations/conv_pines019_020_missing_intransit.eml"],
+      "reason": "Unrelated personal chatter; it does not describe system behavior or a stakeholder need."
+    },
+    {
+      "description": "Personal conversation about a neighbor's dog barking at a mailbox.",
+      "sources": ["conversations/conv_pines019_020_missing_intransit.eml"],
+      "reason": "Nonsensical for the software scope and not a requirement."
+    },
+    {
+      "description": "Personal question about whether a retail store is open on Sunday.",
+      "sources": ["conversations/conv_pines021_item_purging.eml"],
+      "reason": "Unrelated personal chatter; it has no traceable software requirement."
+    }
+  ],
+  "review": {
+    "rounds": 0,
+    "unresolved_issues": [
+      "This curated draft has not been checked by the live LangGraph reviewer because the OpenAI API key was not configured.",
+      "Confirm the required browser versions, branch-capacity measures, shelf-space estimation method, null-value behavior, and retention periods with stakeholders."
+    ],
+    "max_reviews": 2
+  }
+}

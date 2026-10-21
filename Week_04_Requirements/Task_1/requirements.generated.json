@@ -1,0 +1,607 @@
+{
+  "title": "Software Requirements Specification",
+  "generated_by": "LangGraph requirements refinement network",
+  "source_documents": [
+    "corpus/conversations/conv_pines014_material_volume.eml",
+    "corpus/conversations/conv_pines015_capacity_interface.eml",
+    "corpus/conversations/conv_pines016_shelf_space.eml",
+    "corpus/conversations/conv_pines018_item_transfer.eml",
+    "corpus/conversations/conv_pines019_020_missing_intransit.eml",
+    "corpus/conversations/conv_pines021_item_purging.eml",
+    "corpus/conversations/conv_pines022_deletions.eml",
+    "corpus/conversations/conv_pines023_patron_characteristics.eml",
+    "corpus/conversations/conv_pines024_inactive_patrons.eml",
+    "corpus/early_draft_srs_galecia.txt",
+    "corpus/email_financial_reports.eml",
+    "corpus/email_report_features.eml",
+    "corpus/email_staff_login.eml",
+    "corpus/evergreen_reference_2009.txt",
+    "corpus/interview_cataloging_2009-05-08.txt",
+    "corpus/interview_sysadmin_2009-05-10.txt",
+    "corpus/meeting_minutes/meeting_2009-03-15_minutes.txt",
+    "corpus/meeting_minutes/meeting_2009-07-20_minutes.txt",
+    "corpus/meeting_tech_subcommittee_2009-06-30.txt",
+    "corpus/survey_results_2009.txt"
+  ],
+  "priority_scale": {
+    "Critical": "Required to meet a core, regulatory, security, or explicitly critical stakeholder need; blocking if absent.",
+    "High": "Important for primary workflows or explicitly marked high priority in source material.",
+    "Medium": "Valuable capability or explicitly marked medium priority; can follow core needs.",
+    "Low": "Optional or lower-impact need supported by the source corpus.",
+    "Unspecified": "The corpus does not support a reliable priority assignment."
+  },
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "action": "revise",
+      "name": "Missing-and-damaged items report",
+      "description": "Provide a per-branch report of missing and damaged items, with configurable date ranges and condition notes using a defined vocabulary.",
+      "sources": [
+        "corpus/conversations/conv_pines019_020_missing_intransit.eml",
+        "corpus/interview_cataloging_2009-05-08.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-002",
+      "action": "revise",
+      "name": "In-transit items report",
+      "description": "Generate one report combining transit-to and transit-from items that have been in transit longer than a configurable threshold. Support branch and system scopes and sorting by transit age or due date where due dates exist.",
+      "sources": [
+        "corpus/conversations/conv_pines019_020_missing_intransit.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-003",
+      "action": "expand",
+      "name": "Purge criteria with Boolean logic",
+      "description": "Support status-based, time-based, and circulation-activity-based purge criteria combined with AND/OR logic.",
+      "sources": [
+        "corpus/conversations/conv_pines021_item_purging.eml",
+        "corpus/interview_cataloging_2009-05-08.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-004",
+      "action": "expand",
+      "name": "Purge execution safety and deletion scope",
+      "description": "Provide read-only candidate reports, explicit confirmation, authorization checks, audit logging, optional scheduling, and cleanup operations for volume records with associated copies and records with no attached items.",
+      "sources": [
+        "corpus/conversations/conv_pines021_item_purging.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "Critical",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-005",
+      "action": "clarify",
+      "name": "Last-copy reporting",
+      "description": "Provide last-copy reports at both library/branch and consortium/system scope. Identify copies before deletion and, where supported, retain a report of deleted last copies for WorldCat maintenance.",
+      "sources": [
+        "corpus/conversations/conv_pines021_item_purging.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-006",
+      "action": "expand",
+      "name": "Deletion audit reporting",
+      "description": "Log and report record type, record identifier, deletion timestamp, deleting user, user location, and status or reason where available. Support filtering and aggregation by date, user, record type, location, branch, and system, including denied deletion attempts.",
+      "sources": [
+        "corpus/conversations/conv_pines022_deletions.eml"
+      ],
+      "priority": "Critical",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-007",
+      "action": "expand",
+      "name": "Patron-characteristic reporting",
+      "description": "Support filtering and grouping by configurable age bands, ZIP code, county, home branch, patron type, and preferred language. Permit combined AND/OR filters and preserve null or missing values in results.",
+      "sources": [
+        "corpus/conversations/conv_pines023_patron_characteristics.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "Medium",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-008",
+      "action": "expand",
+      "name": "Inactive-patron reporting",
+      "description": "Report patrons with no circulation or defined electronic activity during a configurable number of days. Include OPAC login, online holds, online renewals, and integrated digital-resource access; support system, home-library, and county scopes, mailing addresses, separate outstanding-fines handling, exclusions, CSV export, and background execution.",
+      "sources": [
+        "corpus/conversations/conv_pines024_inactive_patrons.eml"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-009",
+      "action": "clarify",
+      "name": "System capacity interface",
+      "description": "Provide an all-branch capacity overview with drill-down, sorting, filtering, trends, and CSV export. The specification must first define whether capacity means shelf space, item count against a limit, circulation load, processing capacity, or a combination.",
+      "sources": [
+        "corpus/conversations/conv_pines015_capacity_interface.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-010",
+      "action": "clarify",
+      "name": "Shelf-space measurement",
+      "description": "Define how shelf space is measured or estimated for shelf-space reports, including the use of item dimensions or an item-count proxy and the limitations of the selected method.",
+      "sources": [
+        "corpus/conversations/conv_pines016_shelf_space.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-011",
+      "action": "clarify",
+      "name": "Reporting architecture",
+      "description": "Resolve how the fully relational operational database, read-only replicas, background processing, real-time reporting, and historical reporting or warehousing will coexist. Define consistency, freshness, and snapshot behavior.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/evergreen_reference_2009.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt"
+      ],
+      "priority": "Critical",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-012",
+      "action": "expand",
+      "name": "Reporting modes and delivery",
+      "description": "Support canned, editable on-demand, and open-template reporting; recurring schedules; report descriptions; HTML, CSV, and Excel output; email delivery with reusable addresses; editable display fields; report prioritization; and cancellation of scheduled or running reports.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/email_report_features.eml",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-013",
+      "action": "expand",
+      "name": "Report output and advanced filters",
+      "description": "Display report name, selected criteria, and date range; preserve null and blank values; support pivot output, uploaded barcode or TCN filters, survey-name filtering, and flattening selected MARC fields onto a single row where required.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt",
+        "corpus/survey_results_2009.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-014",
+      "action": "expand",
+      "name": "Real-time and historical reporting",
+      "description": "Support both current-state and point-in-time reporting with specified retention, freshness, and snapshot guarantees, including historical shelving/location state and snapshot bills where required.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/evergreen_reference_2009.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt",
+        "corpus/survey_results_2009.txt"
+      ],
+      "priority": "Critical",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-015",
+      "action": "expand",
+      "name": "Operational report catalogue",
+      "description": "Provide or define report equivalents for circulation by Dewey, MARC, circulation modifier, patron county, home library, and age; record creation/edit counts; claims returned; stale and unfilled holds; collection age and value; patron county/age reports; inactive patrons; staff-account reports; and detailed debt reports.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/evergreen_reference_2009.txt"
+      ],
+      "priority": "Medium",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-016",
+      "action": "add",
+      "name": "Catalog data-quality reports",
+      "description": "Provide reports for invalid item types, long call numbers, bibliographic records without item records, and last-edit dates that exclude circulation activity.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/interview_cataloging_2009-05-08.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-017",
+      "action": "expand",
+      "name": "Transaction retention and timestamps",
+      "description": "Define configurable retention for detailed transaction history, indefinite monthly and annual aggregates, privacy-preserving anonymization, and separate check-in timestamps that do not include renewals.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/email_report_features.eml",
+        "corpus/survey_results_2009.txt"
+      ],
+      "priority": "Critical",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-018",
+      "action": "expand",
+      "name": "Financial reporting",
+      "description": "Report item values, patron balances, accrued and waived fines, and payments by time period, branch, system, charge type, and payment method. Join patron- and item-linked financial data, support balance thresholds, maintain a payment-to-charge ledger, and define legally applicable retention.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/email_financial_reports.eml"
+      ],
+      "priority": "Critical",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-019",
+      "action": "correct",
+      "name": "Staff authentication and roles",
+      "description": "Support optional streamlined authentication such as an employee card or badge while retaining individual username/password authentication. Card authentication must identify the individual and use the same role and audit controls.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/email_staff_login.eml"
+      ],
+      "priority": "Medium",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-020",
+      "action": "add",
+      "name": "Material volume report",
+      "description": "Report material volume at a selected library and point in time, including new acquisitions, checked-in items, checked-out items, totals, holds, adult fiction, board books, and configurable categories.",
+      "sources": [
+        "corpus/conversations/conv_pines014_material_volume.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-021",
+      "action": "add",
+      "name": "Shelf-space utilization report",
+      "description": "For each genre and format, compare percentages of total circulation, collection holdings, and shelf space at library and system scope, with date-range support and clearly stated estimation limitations.",
+      "sources": [
+        "corpus/conversations/conv_pines016_shelf_space.eml",
+        "corpus/early_draft_srs_galecia.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-022",
+      "action": "add",
+      "name": "Batch item transfer utility",
+      "description": "Support candidate queries, saved queries, manual selection, location changes, pull lists, previews, permissions, undo, transfer history, printable transit labels, delay alerts, and time- or event-based reversion to the original location.",
+      "sources": [
+        "corpus/conversations/conv_pines018_item_transfer.eml",
+        "corpus/survey_results_2009.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-023",
+      "action": "add",
+      "name": "Uncataloged-material inventory",
+      "description": "Track uncataloged materials such as paperbacks and board books with rapid distribution, minimal branch labor, usage identification, and inclusion of their transactions in circulation statistics.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/interview_cataloging_2009-05-08.txt"
+      ],
+      "priority": "Medium",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-024",
+      "action": "add",
+      "name": "Transaction-type reporting",
+      "description": "Count and group transactions by hour, terminal, branch, system, and county, including distinct check-in methods, checkout and renewal types, hold-placement methods, holds placed and filled, registrations, and fines collected.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/survey_results_2009.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-025",
+      "action": "add",
+      "name": "Report queue visibility",
+      "description": "Show queue position, number of reports ahead, submission time, priority, and status values including waiting, running, completed, and failed.",
+      "sources": [
+        "corpus/email_report_features.eml",
+        "corpus/evergreen_reference_2009.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-026",
+      "action": "add",
+      "name": "Demographic and patron-behavior analysis",
+      "description": "Provide anonymized demographic statistics by geography and age and statistics for patron/material behavior such as return speed, renewal likelihood, and renewal percentage.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/survey_results_2009.txt"
+      ],
+      "priority": "Medium",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-027",
+      "action": "add",
+      "name": "Platform, accessibility, and isolation constraints",
+      "description": "Support Linux or Solaris, browser or Windows-compatible access, the specified legacy browser versions where applicable, screen readers and magnification software, standards-compliant HTML, and operation without disrupting circulation or OPAC functions.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/interview_sysadmin_2009-05-10.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt"
+      ],
+      "priority": "High",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    },
+    {
+      "id": "REQ-028",
+      "action": "add",
+      "name": "Configuration migration and documentation",
+      "description": "Provide separate development, training, and production environments; migrate templates, saved queries, permissions, and configurations; provide data specifications, process documentation, online hierarchical help, and useful error feedback.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/interview_sysadmin_2009-05-10.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt"
+      ],
+      "priority": "Medium",
+      "priority_rationale": "Priority was not explicit in the source corpus.",
+      "notes": ""
+    }
+  ],
+  "blacklist": [
+    {
+      "ids": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "description": "Claim that REQ-001 and REQ-002 duplicate the material-volume report.",
+      "reason": "Nonsensical and factually false: the current REQ-001 is missing/damaged reporting and REQ-002 is in-transit reporting. Neither is the material-volume report. The blacklist entry also says these IDs were not retained, although both are present.",
+      "sources": [
+        "corpus/conversations/conv_pines014_material_volume.eml",
+        "corpus/conversations/conv_pines019_020_missing_intransit.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-003",
+        "REQ-004"
+      ],
+      "description": "Claim that REQ-003 and REQ-004 duplicate the capacity interface.",
+      "reason": "Factually false: both current requirements concern item purging and deletion safety, not capacity. Both should remain separate because criteria composition and deletion execution controls are distinct behaviors.",
+      "sources": [
+        "corpus/conversations/conv_pines015_capacity_interface.eml",
+        "corpus/conversations/conv_pines021_item_purging.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-005",
+        "REQ-006"
+      ],
+      "description": "Claim that REQ-005 and REQ-006 duplicate shelf-space reporting.",
+      "reason": "Factually false: REQ-005 is last-copy reporting and REQ-006 is deletion auditing. They are not shelf-space requirements and should not be blacklisted.",
+      "sources": [
+        "corpus/conversations/conv_pines016_shelf_space.eml",
+        "corpus/conversations/conv_pines021_item_purging.eml",
+        "corpus/conversations/conv_pines022_deletions.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-007",
+        "REQ-008"
+      ],
+      "description": "Claim that REQ-007 and REQ-008 duplicate item transfer.",
+      "reason": "Factually false: these requirements concern patron characteristics and inactive patrons. The item-transfer requirement was omitted and is restored as REQ-022.",
+      "sources": [
+        "corpus/conversations/conv_pines018_item_transfer.eml",
+        "corpus/conversations/conv_pines023_patron_characteristics.eml",
+        "corpus/conversations/conv_pines024_inactive_patrons.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-009",
+        "REQ-010"
+      ],
+      "description": "Claim that REQ-009 and REQ-010 duplicate missing-and-damaged reporting.",
+      "reason": "Factually false: the current requirements concern capacity metrics and shelf-space measurement. Missing-and-damaged reporting is REQ-001.",
+      "sources": [
+        "corpus/conversations/conv_pines015_capacity_interface.eml",
+        "corpus/conversations/conv_pines016_shelf_space.eml",
+        "corpus/conversations/conv_pines019_020_missing_intransit.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-011",
+        "REQ-012"
+      ],
+      "description": "Claim that REQ-011 and REQ-012 duplicate in-transit reporting.",
+      "reason": "Factually false: they concern reporting architecture and reporting modes/delivery. In-transit reporting is REQ-002.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/evergreen_reference_2009.txt"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-013",
+        "REQ-014",
+        "REQ-015"
+      ],
+      "description": "Claim that these requirements overlap substantially and that REQ-015 should be excluded.",
+      "reason": "They are related but separable: output formatting, temporal data semantics, and catalogue coverage have different acceptance criteria. REQ-015 is broad and should be decomposed further, not silently removed.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/evergreen_reference_2009.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-016",
+        "REQ-017"
+      ],
+      "description": "Claim that these requirements duplicate last-copy reporting.",
+      "reason": "Factually false: the current requirements concern catalog data quality and transaction retention. Last-copy reporting is REQ-005.",
+      "sources": [
+        "corpus/interview_cataloging_2009-05-08.txt",
+        "corpus/survey_results_2009.txt"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-018",
+        "REQ-019"
+      ],
+      "description": "Claim that these requirements duplicate deletion tracking.",
+      "reason": "Factually false: the current requirements concern financial reporting and staff authentication. Deletion tracking is REQ-006.",
+      "sources": [
+        "corpus/conversations/conv_pines022_deletions.eml",
+        "corpus/email_financial_reports.eml",
+        "corpus/email_staff_login.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-020",
+        "REQ-021",
+        "REQ-022",
+        "REQ-023"
+      ],
+      "description": "Blacklist references IDs that are not present in the supplied current requirements.",
+      "reason": "These entries cannot be used as duplicate evidence. Their described subjects are distinct source requirements: patron reporting, inactive patrons, and item transfer. The missing requirements are restored above with their current IDs retained and new IDs added only for omitted requirements.",
+      "sources": [
+        "corpus/conversations/conv_pines018_item_transfer.eml",
+        "corpus/conversations/conv_pines023_patron_characteristics.eml",
+        "corpus/conversations/conv_pines024_inactive_patrons.eml"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-034",
+        "REQ-035"
+      ],
+      "description": "Claim that these requirements duplicate the relational database constraint.",
+      "reason": "The IDs are absent from the current requirements, so the claim is not traceable. A relational-database constraint and reporting-architecture behavior may be related but are not automatically semantic duplicates.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/meeting_tech_subcommittee_2009-06-30.txt"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-049",
+        "REQ-050",
+        "REQ-079",
+        "REQ-080"
+      ],
+      "description": "Claim that report-template items are duplicates and that governance items should be excluded.",
+      "reason": "The referenced IDs are absent from the current requirements. Template creation, cloning, permissions, and report-working-group governance are different concepts; governance activities may be out of product scope, but they must be identified explicitly rather than asserted as duplicates.",
+      "sources": [
+        "corpus/email_report_features.eml",
+        "corpus/meeting_minutes/meeting_2009-03-15_minutes.txt",
+        "corpus/meeting_minutes/meeting_2009-07-20_minutes.txt"
+      ]
+    },
+    {
+      "ids": [
+        "REQ-063",
+        "REQ-064",
+        "REQ-071"
+      ],
+      "description": "Blacklist claims concerning data-quality overlap and an overly broad meta-requirement.",
+      "reason": "These IDs are absent from the current requirements, so the assertions are not traceable. The underlying data-quality and catalogue-coverage needs are supported by the interview and draft SRS and should be decomposed rather than discarded.",
+      "sources": [
+        "corpus/early_draft_srs_galecia.txt",
+        "corpus/interview_cataloging_2009-05-08.txt"
+      ]
+    },
+    {
+      "ids": [],
+      "description": "Generic statement that additional blacklist entries cannot be reconstructed.",
+      "reason": "This is not a requirement or a duplicate finding. It should be replaced by explicit traceability for every blacklisted candidate; unsupported claims must not be used to remove requirements.",
+      "sources": []
+    }
+  ],
+  "review": {
+    "rounds": 2,
+    "unresolved_issues": [
+      "The supplied current requirements omit the material-volume report, shelf-space report, batch item-transfer utility, and uncataloged-material inventory requirement.",
+      "The supplied current requirements omit detailed transaction-type reporting, including check-in methods, checkout and renewal types, hold-placement methods, and transaction grouping dimensions.",
+      "The supplied current requirements omit report queue visibility, including queue position, submission time, status, and reports ahead.",
+      "The supplied current requirements omit explicit board/executive reports and cross-tabulation requirements.",
+      "The supplied current requirements omit platform, browser, accessibility, standards-compliant HTML, OPAC-isolation, development/training-environment, configuration-migration, documentation, and online-help requirements.",
+      "REQ-004 adds authorization checks and scheduling to purge operations, but the cited purge sources explicitly support safety confirmation and audit logging more clearly than those two additions; authorization should be traced to the role and permission sources or marked as a design decision.",
+      "REQ-005 treats reporting of already-deleted last copies as optional, while the draft SRS and fine-grained requirements describe deleted-last-copy reporting as a requested capability. The specification must resolve whether it is mandatory.",
+      "REQ-009 correctly identifies an unresolved capacity definition, but it currently combines a prerequisite decision with the eventual interface requirement; these should be separately testable.",
+      "REQ-010 concerns shelf-space estimation, not capacity generally. Its name and wording should avoid conflating shelf-space utilization with branch capacity.",
+      "REQ-011 and REQ-014 address related architecture and temporal-reporting concerns but need explicit data freshness, snapshot, consistency, and retention acceptance criteria.",
+      "REQ-012 omits the required output formats and report queue behavior unless those are covered by separate requirements; the revised set restores them.",
+      "REQ-015 is a catalogue of many reports rather than a testable requirement. Each report family needs an owner, scope, filters, output fields, date semantics, and acceptance criteria.",
+      "REQ-017 combines retention, anonymization, and check-in timestamp semantics. These are related but should be separately testable or explicitly structured as subrequirements.",
+      "REQ-018 says retention must follow legally applicable requirements but does not identify retention periods or the policy owner. The source mentions seven years for some financial data, not necessarily all report data.",
+      "Several priorities are labeled High or Critical without explicit stakeholder priority decisions in the sources. They should be marked provisional or supported by a documented prioritization decision.",
+      "The blacklist contains numerous semantic misclassifications and references IDs absent from the current requirements. It cannot be used as reliable duplicate evidence without correction.",
+      "The source corpus contains inconsistent scale figures: the draft SRS cites 286 locations, 17 million annual circulations, and over 900,000 items processed, while the Evergreen reference cites 286 locations, 3.5 million patrons, and 9.6 million items. The target operating baseline must be resolved.",
+      "The sources distinguish reports, utilities, interfaces, architecture constraints, assumptions, dependencies, and working-group actions, but the current requirements mix these categories without a type field.",
+      "Traceability is incomplete for requirements derived from the early draft's appendices and fine-grained reporting list; individual report definitions need direct citations and decomposition."
+    ],
+    "max_reviews": 2
+  }
+}
