@@ -1,0 +1,55 @@
+# Task 1 — Not Far(m) From Home (NFFH)
+
+## Requirements and working assumptions
+- The product connects consumers with local agricultural companies: companies manage produce and consumers reserve it for a chosen pickup day at the company.
+- Three actor types need different permissions: client, agricultural company (farmer), and administrator.
+- Core areas are accounts/sessions, company locations and areas, product catalog/inventory, cart, orders/pickup, and administrative maintenance/reporting.
+- Assumptions to validate: one cart/order is for one company; a pickup date must be offered by that company; product quantities must not be oversold. The requirements do not specify payment, delivery, refunds, or external map integration beyond opening directions in Google Maps.
+
+## Architecture proposals discussed
+
+### 1. Layered client-server monolith
+- One web application/API, organized into presentation, application/service, domain, and persistence layers; one relational database. A web UI (or mobile client later) calls the API.
+- Keep modules for identity/roles, companies/areas, catalog/inventory, carts/orders, and administration. The order service validates company/pickup eligibility and atomically checks/decrements stock and creates order lines in one database transaction. Persist order-line price/quantity snapshots so later catalog edits do not rewrite order history.
+- **Benefits/trade-offs:** simplest deployment, debugging, local development, and transactional consistency; likely best fit for a small team and first release. Modules can become tightly coupled if boundaries are ignored, and scaling or releasing one busy area independently is difficult.
+- **Low-level pain points:** transaction boundaries and concurrent stock updates (conditional update or row lock); prevent mixed-company carts or explicitly model multiple suborders; secure role checks on every API operation; session persistence via secure HTTP-only cookies and server-side expiry/revocation; indexes and pagination for administrator views; define behavior for deleting products/areas referenced by past orders.
+- **Feasibility:** high. Most complete solution with the least infrastructure and operational risk.
+
+### 2. Domain-oriented microservices
+- Separate deployable services, for example Identity, Company/Area, Catalog/Inventory, Cart/Order, and Admin/Reporting, behind an API gateway. Services own their data; synchronous APIs serve reads/commands and events communicate completed changes.
+- Order service coordinates reservation and pickup selection. Inventory must reserve stock with an idempotent command and explicit expiry/release, or use a saga if order and stock writes span services. Order events feed a read model for admin analytics and order listings.
+- **Benefits/trade-offs:** independent scaling, ownership, technology choices, and releases; failures and traffic can be isolated. But the requirements do not establish enough scale/team autonomy to justify the cost. Cross-service consistency and distributed operations make ordinary workflows substantially harder.
+- **Low-level pain points:** avoid a distributed transaction; handle duplicate/out-of-order events, retries, idempotency keys, timeouts, and compensation; prevent overselling across concurrent reservations; design API/event schemas and versioning; secure service-to-service calls and propagate user identity/roles; centralize tracing/logging; plan deployment, secrets, backups, and service discovery. Admin screens often need a denormalized read model rather than joins across services.
+- **Feasibility:** technically feasible, but lower for an initial version unless there are independent teams, high/uneven load, or a firm need for independent deployments. Start with explicit domain boundaries and extract services only when justified.
+
+### 3. Serverless managed platform
+- Browser UI calls managed authentication and API functions; domain functions handle company/catalog/cart/order/admin operations. A managed relational database stores transactional data; object storage/CDN can serve product images; a queue/event bus triggers notifications and analytics. Google Maps directions can be opened via a URL using the company location.
+- Keep stock reservation/order creation in one transactional database operation or function. Do not rely on separate asynchronous functions to enforce stock correctness. Use queued events for non-critical effects (e.g., email and analytics), with idempotent handlers.
+- **Benefits/trade-offs:** little server maintenance, rapid initial deployment, automatic scaling, and pay-per-use can suit a small or variable workload. Vendor-managed services reduce operations but create provider coupling and do not remove application-level security or data design.
+- **Low-level pain points:** function cold starts/timeouts and execution limits; connection pooling for a relational database; duplicate queue delivery and retry/dead-letter handling; split synchronous order confirmation from asynchronous side effects; managed-auth role claims and authorization rules; local testing and debugging across provider services; quotas, cost visibility, and infrastructure-as-code; portability and provider-specific database/auth APIs.
+- **Feasibility:** high if the team already uses a suitable cloud provider and its managed services; otherwise moderate due to provider learning and integration. Use relational transactions for inventory/order invariants, not eventually consistent data paths.
+
+## Decision/trade-off record
+- No architecture was selected in the assignment discussion. For an MVP with unspecified scale and a small team, the layered monolith is the recommended starting point: it makes the most important order/inventory invariants easiest to enforce and keeps deployment simple.
+- Preserve clear domain modules and stable interfaces so that catalog, identity, or reporting can later be extracted if measured load or organizational needs demand it. Serverless is a reasonable alternative when managed-cloud familiarity is already present; microservices are not justified by the current requirements alone.
+- Decisions still needed before detailed design: single-company vs multi-company orders; reservation/stock release rules; pickup capacity and cut-off times; authentication/session policy; payment scope; product availability and deletion/history rules; expected scale, team size, deployment constraints, and privacy/retention obligations.
+
+## Task 2 — ADR first draft (2026-10-28)
+- Created `ADR-001.md` as a proposed decision, not a finalized or already-approved choice. It records the layered modular monolith as the recommended MVP architecture from Task 1.
+- The draft compares all three discussed options and records why transactional stock/order handling and low initial operational burden favor the monolith given currently unknown scale and team structure.
+- Added a Mermaid diagram covering the three actor clients, one deployable application with domain modules, relational database, and external Google Maps handoff.
+- Added implementation consequences and controls for concurrent stock updates, order history snapshots, role/session security, pickup scheduling, cart/company boundaries, administrative query scale, and referenced-record deletion.
+- Trade-offs/open review items retained: decide cart/order company boundary, reservation lifecycle, pickup capacity/cut-offs, payment scope, scale, and deployment constraints. ADR remains **Proposed — first draft for review**, pending discussion and revisions.
+
+## ADR-001 finalization pass (2026-10-28)
+- Updated ADR-001 from a first draft to **Accepted**, retaining the layered modular monolith decision.
+- Checkout concurrency decision: use one database transaction with pessimistic `SELECT ... FOR UPDATE` locks on affected inventory rows, acquired in stable product-ID order; revalidate stock under lock and atomically write inventory changes plus order/order-line snapshots. All stock writers must follow the same locking protocol; add bounded lock waits/retries, idempotent checkout, and DB constraints. Validate behavior on the selected database.
+- Cart decision: persist mutable client carts and cart lines in the relational database, separate from immutable confirmed order facts. Carts do not reserve stock; checkout revalidates availability and atomically converts the cart. Local storage/cache are non-authoritative conveniences only.
+- Added architectural guardrails for public module contracts/events, no direct cross-domain table joins, schema/persistence ownership, directed acyclic dependencies, and CI enforcement using language/package visibility, dependency rules, ArchUnit where applicable, or monorepo build tooling.
+- Updated the Mermaid diagram to show domain modules communicating through internal public interfaces/events and module-owned persistence before the relational database.
+- Remaining product/technology decisions are explicitly open (multi-company carts/orders, reservation/pickup rules, payment scope, database and implementation language, scale/deployment/privacy requirements).
+
+## Reusable architecture skill (2026-10-28)
+- Reviewed the Task 1 and Task 2 notes. The repeatable approach is to separate stated requirements from assumptions/open questions; compare distinct options using shared criteria; include feasibility, operational trade-offs, and low-level implementation risks; recommend based on explicit drivers; and keep ADR status accurate until the decision is confirmed.
+- Created the workspace skill `.github/skills/architecture-decision-record/` with an end-to-end requirements-to-options-to-decision-to-ADR workflow and a reusable ADR template.
+- Skill guidance also captures specific lessons from NFFH: discuss transaction consistency and failure modes concretely; explain module boundaries and enforcement; include diagrams only when consistent with the prose; retain open product/technology questions instead of inventing answers.
