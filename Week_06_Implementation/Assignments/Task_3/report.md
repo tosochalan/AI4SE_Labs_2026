@@ -1,0 +1,5 @@
+# Embedding design
+
+The script uses a deterministic, 512-dimensional signed feature-hashing TF-IDF embedding implemented with Python's standard library, so it requires no model download or external package. It extracts words and code identifiers (including snake_case/camelCase parts), weights terms by their frequency in a chunk and rarity across all chunks, hashes them into a fixed-size vector, and L2-normalizes the result. The JSON file stores each chunk ID and identifying metadata beside its vector, as well as the IDF values needed to embed later queries in the same vector space. Run `python3 embeder.py --query "..."` to rank chunks by cosine similarity (the dot product of the normalized vectors).
+
+This lightweight representation is reproducible and convenient for a small lab repository, but it primarily matches vocabulary and identifiers; unlike a pretrained language model, it does not capture deep semantic similarity.
